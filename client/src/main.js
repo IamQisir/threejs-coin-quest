@@ -24,6 +24,26 @@ const ground = new THREE.Mesh(
 ground.rotation.x = -Math.PI / 2;
 scene.add(ground);
 
+function movePlayer(dx, dz) {
+  player.position.x += dx;
+  player.position.z += dz;
+}
+
+function handleKeyDown(event) {
+  switch (event.key) {
+    case 'ArrowLeft':
+      movePlayer(-0.5, 0);
+      break;
+    case 'ArrowRight':
+      movePlayer(0.5, 0);
+      break;
+  }
+  event.prevenrtDefault();
+}
+
+window.addEventListener('keydown', handleKeyDown);
+
+
 const player = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1),
   new THREE.MeshStandardMaterial({ color: '#f4ba49' }),
