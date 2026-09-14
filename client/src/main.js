@@ -29,19 +29,44 @@ function movePlayer(dx, dz) {
   player.position.z += dz;
 }
 
+const input = { left: false, right: false };
+
 function handleKeyDown(event) {
   switch (event.key) {
     case 'ArrowLeft':
-      movePlayer(-0.5, 0);
+      input.left = true;
       break;
     case 'ArrowRight':
-      movePlayer(0.5, 0);
+      input.right = true;
       break;
+    default:
+      return;
   }
-  event.prevenrtDefault();
+  event.preventDefault();
 }
 
 window.addEventListener('keydown', handleKeyDown);
+
+function handleKeyUp(event) {
+  switch (event.key) {
+    case 'ArrowLeft':
+      input.left = false;
+      break;
+    case 'ArrowRight':
+      input.right = false;
+      break;
+    default:
+      return;
+  }
+  event.preventDefault();
+}
+
+window.addEventListener('keyup', handleKeyUp);
+
+window.addEventListener('blur', () => {
+    input.left = false;
+    input.right = false;
+});
 
 
 const player = new THREE.Mesh(
@@ -62,7 +87,21 @@ function resize() {
 }
 window.addEventListener('resize', resize);
 resize();
-renderer.setAnimationLoop(() => renderer.render(scene, camera));
+
+const speed = 3;
+let previousTime = null;
+
+renderer.setAnimationLoop((time) => {
+  if (previousTime === null) previousTime = time;
+  const dt = Math.min((time - previousTime) / 1000, 0.05);
+  previousTime = time;
+  
+  let dx = 0;
+  if (input.left) dx -= speed * dt;
+  if (input.right) dx += speed * dt;
+  movePlayer(dx, 0);
+  renderer.render(scene, camera);
+});
 
 // Vite forwards /api requests to the local backend.
 async function checkApi() {
