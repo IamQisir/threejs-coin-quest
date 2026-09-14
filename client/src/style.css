@@ -1,0 +1,7 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #101827; color: #edf3ff; font-family: system-ui, sans-serif; }
+main { max-width: 1000px; margin: 0 auto; padding: 24px; }
+h1 { margin-top: 0; }
+p { color: #b8c7dc; }
+#game { width: 100%; height: min(65vh, 600px); min-height: 280px; overflow: hidden; border-radius: 12px; }
+canvas { display: block; }
