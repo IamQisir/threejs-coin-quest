@@ -29,6 +29,7 @@ const player = new THREE.Mesh(
   new THREE.MeshStandardMaterial({ color: '#f4ba49' }),
 );
 player.position.y = 0.5;
+player.position.x = 2;
 scene.add(player);
 
 // Update the canvas size and camera aspect ratio when the browser is resized.
